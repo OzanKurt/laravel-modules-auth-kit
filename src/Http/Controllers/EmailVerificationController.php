@@ -31,7 +31,9 @@ final class EmailVerificationController extends ApiController
     public function verify(EmailVerificationRequest $request): RedirectResponse|JsonResponse
     {
         // EmailVerificationRequest::authorize() already validated id + hash (403 otherwise).
-        if (! $request->user()->hasVerifiedEmail()) {
+        $user = $request->user();
+
+        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
             $request->fulfill(); // marks verified + fires Verified
         }
 
@@ -42,8 +44,10 @@ final class EmailVerificationController extends ApiController
 
     public function resend(Request $request): RedirectResponse|JsonResponse
     {
-        if (! $this->verified($request)) {
-            $request->user()->sendEmailVerificationNotification();
+        $user = $request->user();
+
+        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
         }
 
         return $this->wantsJson($request)

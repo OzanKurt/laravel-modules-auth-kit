@@ -24,6 +24,14 @@ it('verifies the email via a valid signed link and fires Verified', function () 
     Event::assertDispatched(Verified::class);
 });
 
+it('shows the notice page to an unverified user', function () {
+    $this->actingAs(createUser(['email_verified_at' => null]));
+
+    $this->get(route('auth-kit.verification.notice'))
+        ->assertOk()
+        ->assertViewIs('auth-kit::auth.verify-email');
+});
+
 it('rejects a tampered hash', function () {
     $user = createUser(['email' => 'a@b.com', 'email_verified_at' => null]);
     $this->actingAs($user);

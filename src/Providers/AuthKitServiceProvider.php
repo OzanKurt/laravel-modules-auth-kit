@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kurt\Modules\AuthKit\Providers;
 
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -66,6 +67,14 @@ final class AuthKitServiceProvider extends PackageServiceProvider
         }
 
         $this->registerRoutesForMode();
+
+        // Host apps gate their own routes with `auth-kit.verified`. The
+        // `:route-name` parameter makes Laravel's EnsureEmailIsVerified redirect
+        // unverified users to our notice route. Harmless to register always.
+        Route::aliasMiddleware(
+            'auth-kit.verified',
+            EnsureEmailIsVerified::class.':auth-kit.verification.notice',
+        );
     }
 
     /**
