@@ -19,6 +19,10 @@ return [
         'redirect_to' => '/',           // UI redirect on success
     ],
 
+    'email_verification' => [
+        'redirect_to' => '/',   // where a successful verification / already-verified lands
+    ],
+
     'features' => [
         'registration' => true,
         'email_verification' => true,

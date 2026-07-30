@@ -60,6 +60,8 @@ abstract class TestCase extends PackageTestCase
         Schema::table('users', function (Blueprint $table): void {
             $table->string('password')->nullable();
             $table->rememberToken();
+            // Email verification (M4): unverified users have this null.
+            $table->timestamp('email_verified_at')->nullable();
         });
     }
 

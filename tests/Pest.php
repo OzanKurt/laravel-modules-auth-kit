@@ -8,6 +8,7 @@ use Kurt\Modules\AuthKit\Tests\HeadlessModeTestCase;
 use Kurt\Modules\AuthKit\Tests\RegistrationDisabledModeTestCase;
 use Kurt\Modules\AuthKit\Tests\TestCase;
 use Kurt\Modules\AuthKit\Tests\UiModeTestCase;
+use Kurt\Modules\AuthKit\Tests\VerificationDisabledModeTestCase;
 
 // Route registration is boot-time and keyed off the module's HttpMode, so
 // HTTP tests live under Modes/* where a mode-specific case fixes the mode
@@ -17,6 +18,7 @@ uses(UiModeTestCase::class)->in('Modes/Ui');
 uses(ApiModeTestCase::class)->in('Modes/Api');
 uses(HeadlessModeTestCase::class)->in('Modes/Headless');
 uses(RegistrationDisabledModeTestCase::class)->in('Modes/RegistrationDisabled');
+uses(VerificationDisabledModeTestCase::class)->in('Modes/VerificationDisabled');
 
 /**
  * Persist a test user through the bound test case, so specs can write
