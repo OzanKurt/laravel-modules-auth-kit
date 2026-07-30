@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Kurt\Modules\AuthKit\Facades\AuthKit;
 use Kurt\Modules\AuthKit\Http\Controllers\EmailVerificationController;
 use Kurt\Modules\AuthKit\Http\Controllers\LoginController;
+use Kurt\Modules\AuthKit\Http\Controllers\PasswordResetController;
 use Kurt\Modules\AuthKit\Http\Controllers\RegisterController;
 
 // API mode: JSON login/logout (session-cookie based; token auth is a later milestone).
@@ -21,4 +22,9 @@ if (AuthKit::feature('email_verification')) {
         ->middleware(['auth', 'signed', 'throttle:6,1'])->name('auth-kit.verification.verify');
     Route::post('email/verification-notification', [EmailVerificationController::class, 'resend'])
         ->middleware(['auth', 'throttle:6,1'])->name('auth-kit.verification.send');
+}
+
+if (AuthKit::feature('password_reset')) {
+    Route::post('forgot-password', [PasswordResetController::class, 'sendLink'])
+        ->middleware('throttle:6,1')->name('auth-kit.password.email');
 }

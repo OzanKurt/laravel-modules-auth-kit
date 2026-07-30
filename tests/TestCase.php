@@ -63,6 +63,15 @@ abstract class TestCase extends PackageTestCase
             // Email verification (M4): unverified users have this null.
             $table->timestamp('email_verified_at')->nullable();
         });
+
+        // Password reset (M5) runs on Laravel's own broker, which stores its
+        // (hashed, expiring) tokens here. The framework owns this table, so the
+        // package ships no migration for it: only the test harness creates it.
+        Schema::create('password_reset_tokens', function (Blueprint $table): void {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
     }
 
     /**

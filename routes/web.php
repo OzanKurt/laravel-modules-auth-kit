@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Kurt\Modules\AuthKit\Facades\AuthKit;
 use Kurt\Modules\AuthKit\Http\Controllers\EmailVerificationController;
 use Kurt\Modules\AuthKit\Http\Controllers\LoginController;
+use Kurt\Modules\AuthKit\Http\Controllers\PasswordResetController;
 use Kurt\Modules\AuthKit\Http\Controllers\RegisterController;
 
 Route::middleware('web')->group(function () {
@@ -25,5 +26,12 @@ Route::middleware('web')->group(function () {
             ->middleware(['auth', 'signed', 'throttle:6,1'])->name('auth-kit.verification.verify');
         Route::post('email/verification-notification', [EmailVerificationController::class, 'resend'])
             ->middleware(['auth', 'throttle:6,1'])->name('auth-kit.verification.send');
+    }
+
+    if (AuthKit::feature('password_reset')) {
+        Route::get('forgot-password', [PasswordResetController::class, 'showLinkForm'])
+            ->middleware('guest')->name('auth-kit.password.request');
+        Route::post('forgot-password', [PasswordResetController::class, 'sendLink'])
+            ->middleware(['guest', 'throttle:6,1'])->name('auth-kit.password.email');
     }
 });

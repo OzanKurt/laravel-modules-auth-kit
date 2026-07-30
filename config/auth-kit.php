@@ -23,6 +23,10 @@ return [
         'redirect_to' => '/',   // where a successful verification / already-verified lands
     ],
 
+    'password_reset' => [
+        'redirect_to' => '/',   // where a successful reset lands (UI)
+    ],
+
     'features' => [
         'registration' => true,
         'email_verification' => true,
