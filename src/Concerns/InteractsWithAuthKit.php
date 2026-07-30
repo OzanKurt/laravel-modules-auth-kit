@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Kurt\Modules\AuthKit\Concerns;
 
+use Kurt\Modules\AuthKit\Contracts\AuthKitUser;
 use Kurt\Modules\AuthKit\Facades\AuthKit;
 
 /**
- * Config-backed default implementations of {@see \Kurt\Modules\AuthKit\Contracts\AuthKitUser}.
+ * Config-backed default implementations of {@see AuthKitUser}.
  *
  * Each method delegates to the matching gate in `config('auth-kit.gates.*')`.
  * A host model may override any method for full per-user control; the override

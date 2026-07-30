@@ -11,7 +11,9 @@ class TraitUserStub extends Model implements AuthKitUser
     use InteractsWithAuthKit;
 
     protected $table = 'users';
+
     protected $guarded = [];
+
     public $timestamps = false;
 }
 

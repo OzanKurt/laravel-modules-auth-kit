@@ -9,7 +9,9 @@ use Kurt\Modules\AuthKit\Facades\AuthKit;
 class GateUserStub extends Model
 {
     protected $table = 'users';
+
     protected $guarded = [];
+
     public $timestamps = false;
 }
 
