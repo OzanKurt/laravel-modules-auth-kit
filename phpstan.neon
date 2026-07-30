@@ -18,3 +18,5 @@ parameters:
           path: src/Http/Controllers/RegisterController.php
         - message: '#Parameter \#1 \$view of function view expects view-string\|null, string given\.#'
           path: src/Http/Controllers/EmailVerificationController.php
+        - message: '#Parameter \#1 \$view of function view expects view-string\|null, string given\.#'
+          path: src/Http/Controllers/PasswordResetController.php

@@ -27,4 +27,6 @@ if (AuthKit::feature('email_verification')) {
 if (AuthKit::feature('password_reset')) {
     Route::post('forgot-password', [PasswordResetController::class, 'sendLink'])
         ->middleware('throttle:6,1')->name('auth-kit.password.email');
+    Route::post('reset-password', [PasswordResetController::class, 'reset'])
+        ->middleware('throttle:6,1')->name('auth-kit.password.update');
 }

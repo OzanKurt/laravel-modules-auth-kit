@@ -33,5 +33,9 @@ Route::middleware('web')->group(function () {
             ->middleware('guest')->name('auth-kit.password.request');
         Route::post('forgot-password', [PasswordResetController::class, 'sendLink'])
             ->middleware(['guest', 'throttle:6,1'])->name('auth-kit.password.email');
+        Route::get('reset-password/{token}', [PasswordResetController::class, 'showResetForm'])
+            ->middleware('guest')->name('auth-kit.password.reset');
+        Route::post('reset-password', [PasswordResetController::class, 'reset'])
+            ->middleware(['guest', 'throttle:6,1'])->name('auth-kit.password.update');
     }
 });

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Kurt\Modules\AuthKit\Providers;
 
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -75,6 +77,37 @@ final class AuthKitServiceProvider extends PackageServiceProvider
             'auth-kit.verified',
             EnsureEmailIsVerified::class.':auth-kit.verification.notice',
         );
+
+        $this->pointResetLinksAtOurRoute();
+    }
+
+    /**
+     * Laravel's ResetPassword notification builds its link from a route named
+     * `password.reset`, which this package does not define; without this the
+     * emailed link would blow up in host apps that never registered one.
+     * Skipped when the route is absent (headless/api mode, feature off) and when
+     * the host app has already installed its own URL callback. Deferred to
+     * `booted()` because the router's name lookups are only refreshed once every
+     * provider has booted, so `Route::has()` is unreliable before then.
+     */
+    private function pointResetLinksAtOurRoute(): void
+    {
+        $this->app->booted(function (): void {
+            if (ResetPassword::$createUrlCallback !== null || ! Route::has('auth-kit.password.reset')) {
+                return;
+            }
+
+            ResetPassword::createUrlUsing(function (mixed $notifiable, string $token): string {
+                $email = $notifiable instanceof CanResetPassword
+                    ? $notifiable->getEmailForPasswordReset()
+                    : null;
+
+                return route('auth-kit.password.reset', array_filter([
+                    'token' => $token,
+                    'email' => $email,
+                ]));
+            });
+        });
     }
 
     /**

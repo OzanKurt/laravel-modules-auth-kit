@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Kurt\Modules\AuthKit\Tests\ApiModeTestCase;
 use Kurt\Modules\AuthKit\Tests\Fixtures\AuthKitTestUser;
 use Kurt\Modules\AuthKit\Tests\HeadlessModeTestCase;
+use Kurt\Modules\AuthKit\Tests\PasswordResetDisabledModeTestCase;
 use Kurt\Modules\AuthKit\Tests\RegistrationDisabledModeTestCase;
 use Kurt\Modules\AuthKit\Tests\TestCase;
 use Kurt\Modules\AuthKit\Tests\UiModeTestCase;
@@ -19,6 +20,7 @@ uses(ApiModeTestCase::class)->in('Modes/Api');
 uses(HeadlessModeTestCase::class)->in('Modes/Headless');
 uses(RegistrationDisabledModeTestCase::class)->in('Modes/RegistrationDisabled');
 uses(VerificationDisabledModeTestCase::class)->in('Modes/VerificationDisabled');
+uses(PasswordResetDisabledModeTestCase::class)->in('Modes/PasswordResetDisabled');
 
 /**
  * Persist a test user through the bound test case, so specs can write
