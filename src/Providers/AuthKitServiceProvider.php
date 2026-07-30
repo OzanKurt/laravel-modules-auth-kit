@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Kurt\Modules\AuthKit\Providers;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Route;
 use Kurt\Modules\AuthKit\AuthKitManager;
+use Kurt\Modules\AuthKit\Contracts\Registrar;
+use Kurt\Modules\AuthKit\Support\EloquentRegistrar;
+use Kurt\Modules\Core\Contracts\UserResolver;
 use Kurt\Modules\Core\Http\HttpMode;
 use Kurt\Modules\Core\Providers\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
@@ -37,6 +41,14 @@ final class AuthKitServiceProvider extends PackageServiceProvider
         // The session guard is a StatefulGuard, but the contract has no default
         // binding; wire it so the auth actions can depend on the abstraction.
         $this->app->bind(StatefulGuard::class, fn ($app) => $app['auth']->guard());
+
+        // Default user-creation seam for registration; rebindable by the host
+        // app to control exactly how its User model is created.
+        $this->app->singleton(Registrar::class, fn ($app) => new EloquentRegistrar(
+            $app->make(UserResolver::class),
+            $app->make(Hasher::class),
+            $app['config'],
+        ));
     }
 
     public function packageBooted(): void

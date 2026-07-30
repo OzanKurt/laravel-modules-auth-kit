@@ -13,6 +13,12 @@ return [
         'allow_remember' => true,
     ],
 
+    'register' => [
+        'fields' => ['name', 'email'],  // assignable from registration input (never mass-assign the rest)
+        'login_after' => true,          // log the new user in immediately
+        'redirect_to' => '/',           // UI redirect on success
+    ],
+
     'features' => [
         'registration' => true,
         'email_verification' => true,
