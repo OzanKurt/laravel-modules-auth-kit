@@ -15,4 +15,15 @@ final class AuthKitManager
     {
         return 'auth-kit';
     }
+
+    /**
+     * Whether an auth-kit flow is enabled in the host app.
+     *
+     * Unknown flags resolve to false (safe-by-default: a flow the app never
+     * declared is off).
+     */
+    public function feature(string $name): bool
+    {
+        return (bool) $this->config->get("auth-kit.features.{$name}", false);
+    }
 }

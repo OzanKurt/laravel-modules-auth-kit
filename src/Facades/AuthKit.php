@@ -9,6 +9,7 @@ use Kurt\Modules\AuthKit\AuthKitManager;
 
 /**
  * @method static string module()
+ * @method static bool feature(string $name)
  *
  * @see AuthKitManager
  */
