@@ -10,6 +10,7 @@ use Kurt\Modules\AuthKit\AuthKitManager;
 /**
  * @method static string module()
  * @method static bool feature(string $name)
+ * @method static bool gate(string $key, \Illuminate\Database\Eloquent\Model $user)
  *
  * @see AuthKitManager
  */
