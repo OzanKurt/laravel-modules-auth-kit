@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Kurt\Modules\AuthKit\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Kurt\Modules\AuthKit\Support\EloquentRegistrar;
 
 /**
  * Creates a new user from validated registration data. The default binding is
- * {@see \Kurt\Modules\AuthKit\Support\EloquentRegistrar}; a host app can rebind
+ * {@see EloquentRegistrar}; a host app can rebind
  * this to control exactly how its User model is created.
  */
 interface Registrar
