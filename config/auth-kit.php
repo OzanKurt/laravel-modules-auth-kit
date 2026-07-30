@@ -8,6 +8,11 @@ return [
         'mode' => 'ui',
     ],
 
+    'login' => [
+        'redirect_to' => '/',   // where a UI login redirects on success
+        'allow_remember' => true,
+    ],
+
     'features' => [
         'registration' => true,
         'email_verification' => true,
