@@ -10,3 +10,7 @@ parameters:
         # Traits in this package are consumed by downstream KurtModules packages,
         # so PHPStan's "trait used zero times" check would otherwise flag them.
         - identifier: trait.unused
+        # The `auth-kit::` view namespace is registered at runtime (packageBooted),
+        # so larastan cannot resolve it to a view-string during static analysis.
+        - message: '#Parameter \#1 \$view of function view expects view-string\|null, string given\.#'
+          path: src/Http/Controllers/LoginController.php

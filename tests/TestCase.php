@@ -34,6 +34,9 @@ abstract class TestCase extends PackageTestCase
         // session so the guard's session/token operations work under test.
         $app['config']->set('auth.providers.users.model', AuthKitTestUser::class);
         $app['config']->set('session.driver', 'array');
+
+        // The web/stateful stacks encrypt the session cookie, which needs a key.
+        $app['config']->set('app.key', 'base64:'.base64_encode(random_bytes(32)));
     }
 
     protected function setUp(): void

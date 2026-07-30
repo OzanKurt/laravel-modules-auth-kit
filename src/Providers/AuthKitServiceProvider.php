@@ -25,7 +25,8 @@ final class AuthKitServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('laravel-modules-auth-kit')
-            ->hasConfigFile('auth-kit');
+            ->hasConfigFile('auth-kit')
+            ->hasViews('auth-kit');
     }
 
     public function packageRegistered(): void
